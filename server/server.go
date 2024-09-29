@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"html/template"
@@ -27,13 +27,6 @@ func NewServer() *Server {
 
 func (s Server) registerRoutes() {
 	s.Mux.HandleFunc("GET /{$}", s.homeView)
-}
-
-func (s *Server) homeView(w http.ResponseWriter, req *http.Request) {
-	err := s.Templates[HomeTemplate].ExecuteTemplate(w, LayoutTemplateName, nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
 }
 
 func (s Server) ListenAndServe(addr string) error {
