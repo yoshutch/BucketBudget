@@ -6,7 +6,8 @@ import (
 )
 
 const (
-	HomeTemplate = "home"
+	LayoutTemplateName = "layout.html"
+	HomeTemplate       = "home"
 )
 
 type Server struct {
@@ -20,10 +21,22 @@ func NewServer() *Server {
 		Templates: parseTemplates(),
 	}
 
+	server.registerRoutes()
 	return server
 }
 
-func (s Server) listen(addr string) error {
+func (s Server) registerRoutes() {
+	s.Mux.HandleFunc("GET /{$}", s.homeView)
+}
+
+func (s *Server) homeView(w http.ResponseWriter, req *http.Request) {
+	err := s.Templates[HomeTemplate].ExecuteTemplate(w, LayoutTemplateName, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func (s Server) ListenAndServe(addr string) error {
 	return http.ListenAndServe(addr, s.Mux)
 }
 
@@ -36,5 +49,5 @@ func parseTemplates() map[string]*template.Template {
 }
 
 func parseLayout() *template.Template {
-	return template.Must(template.ParseFiles("templates/header.html", "templates/index.html"))
+	return template.Must(template.ParseFiles("templates/header.html", "templates/layout.html"))
 }
