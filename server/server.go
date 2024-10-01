@@ -36,11 +36,11 @@ func (s Server) ListenAndServe(addr string) error {
 func parseTemplates() map[string]*template.Template {
 	parsedTemplates := make(map[string]*template.Template)
 
-	parsedTemplates[HomeTemplate] = template.Must(parseLayout().ParseFiles("templates/home.html"))
+	parsedTemplates[HomeTemplate] = template.Must(parseLayout().ParseFiles("./templates/home.html"))
 
 	return parsedTemplates
 }
 
 func parseLayout() *template.Template {
-	return template.Must(template.ParseFiles("templates/header.html", "templates/layout.html"))
+	return template.Must(template.ParseFiles("./templates/header.html", "./templates/layout.html"))
 }
