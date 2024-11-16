@@ -1,0 +1,27 @@
+{{define "base"}}
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <title>{{template "title" .}} - Bucket Budget</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+        >
+    </head>
+    <body>
+        <header>
+            <h1><a href='/'>Bucket Budget</a></h1>
+        </header>
+        <main>
+            {{with .Flash}}
+                <div class='flash'>{{.}}</div>
+            {{end}}
+            {{template "main" .}}
+        </main>
+        <footer>
+            Created by HutchTech LLC
+        </footer>
+    </body>
+</html>
+{{end}}
