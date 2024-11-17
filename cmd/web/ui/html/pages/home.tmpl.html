@@ -2,4 +2,20 @@
 
 {{define "main"}}
     <h2>Buckets</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Bucket Name</th>
+                <td>Balance</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Buckets}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Balance}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
 {{end}}

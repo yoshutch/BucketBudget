@@ -8,6 +8,10 @@ import (
 	"yosbomb.com/bucketbudget/cmd/web/ui"
 )
 
+type BaseTemplateData struct {
+	Flash string
+}
+
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 

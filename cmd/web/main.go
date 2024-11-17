@@ -6,11 +6,14 @@ import (
 	"net/http"
 	"os"
 	"text/template"
+
+	"yosbomb.com/bucketbudget/internal/services"
 )
 
 type application struct {
 	logger        *slog.Logger
 	templateCache map[string]*template.Template
+	bucketService services.BucketsServiceI
 }
 
 func main() {
@@ -25,9 +28,12 @@ func main() {
 		os.Exit(1)
 	}
 
+	buckets := services.NewBucketsService(logger)
+
 	app := &application{
 		logger:        logger,
 		templateCache: templateCache,
+		bucketService: &buckets,
 	}
 
 	srv := &http.Server{
