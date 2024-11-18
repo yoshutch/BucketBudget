@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:12.21
+    environment:
+      - POSTGRES_PASSWORD=/run/secrest/db_root_password
+    ports:
+      - '5432:5432'
+    volumes:
+      - './local/postgresql/data:/var/lib/postgresql/data'
+
+secrets:
+  POSTGRES_PASSWORD:
+    file: './local/db_root_password.txt'
