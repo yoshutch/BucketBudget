@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
 	"log/slog"
 	"net/http"
@@ -8,6 +9,8 @@ import (
 	"text/template"
 
 	"yosbomb.com/bucketbudget/internal/services"
+
+	_ "github.com/lib/pq"
 )
 
 type application struct {
@@ -18,9 +21,18 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
+	dsn := flag.String("dsn", os.Getenv("BUCKET_DB_DSN"), "PostgreSQL DSN")
 	flag.Parse()
 
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+
+	db, err := openDB(*dsn)
+	if err != nil {
+		logger.Error(err.Error())
+		return
+	}
+	logger.Info("connected to database successfully")
+	defer db.Close()
 
 	templateCache, err := newTemplateCache()
 	if err != nil {
@@ -46,4 +58,16 @@ func main() {
 	err = srv.ListenAndServe()
 	logger.Error(err.Error())
 	os.Exit(1)
+}
+
+func openDB(dsn string) (*sql.DB, error) {
+	db, err := sql.Open("postgres", dsn)
+	if err != nil {
+		return nil, err
+	}
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
 }

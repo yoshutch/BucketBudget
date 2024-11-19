@@ -2,12 +2,14 @@ services:
   db:
     image: postgres:12.21
     environment:
-      - POSTGRES_PASSWORD=/run/secrest/db_root_password
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_root_password
     ports:
       - '5432:5432'
     volumes:
       - './local/postgresql/data:/var/lib/postgresql/data'
+    secrets:
+      - db_root_password
 
 secrets:
-  POSTGRES_PASSWORD:
+  db_root_password:
     file: './local/db_root_password.txt'
