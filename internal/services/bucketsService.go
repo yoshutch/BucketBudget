@@ -4,72 +4,68 @@ import (
 	"log/slog"
 	"time"
 
+	"yosbomb.com/bucketbudget/internal/data"
 	"yosbomb.com/bucketbudget/internal/models"
 )
 
 type BucketsService struct {
-	logger *slog.Logger
+	Logger *slog.Logger
+	Repo   *data.BucketsRepo
 }
 
 type BucketsServiceI interface {
-	NewBucket(input newBucketInput) (models.Bucket, error)
+	NewBucket(input newBucketInput) (*models.Bucket, error)
 	GetBucket(id uint64) (models.Bucket, error)
 	UpdateBucket(id uint64, input newBucketInput) (models.Bucket, error)
 	DeleteBucket(id uint64) error
 	GetMyBuckets() ([]models.Bucket, error)
 }
 
-func NewBucketsService(logger *slog.Logger) BucketsService {
-	return BucketsService{
-		logger: logger,
-	}
-}
-
 type newBucketInput struct {
 	name    string
-	balance string
+	balance models.Amount
 }
 
-func (b *BucketsService) NewBucket(input newBucketInput) (models.Bucket, error) {
-	b.logger.Info("New Bucket")
+func (b *BucketsService) NewBucket(input newBucketInput) (*models.Bucket, error) {
+	b.Logger.Info("New Bucket")
 	// TODO authz
 	// TODO validate input
-	// TODO database insert
-	return models.Bucket{
-		ID:      1,
-		Name:    input.name,
-		Balance: input.balance,
-		Created: time.Now(),
-	}, nil
+
+	bucket, err := b.Repo.Insert(input.name, input.balance)
+	if err != nil {
+		return nil, err
+	}
+
+	return bucket, nil
 }
 
 func (b *BucketsService) GetBucket(id uint64) (models.Bucket, error) {
-	b.logger.Info("Get Bucket", id)
+	b.Logger.Info("Get Bucket", "id", id)
 	// TODO authz
 	// TODO get from db
 	return models.Bucket{
 		ID:      1,
 		Name:    "Test Buket",
-		Balance: "100.00",
+		Balance: models.Amount{},
 		Created: time.Now(),
 	}, nil
 }
 
 func (b *BucketsService) UpdateBucket(id uint64, input newBucketInput) (models.Bucket, error) {
-	b.logger.Info("Update Bucket", "id", id)
+	b.Logger.Info("Update Bucket", "id", id)
 	// TODO validate input
 	// TODO authz
 	// TODO update database
 	return models.Bucket{
 		ID:      1,
 		Name:    input.name,
-		Balance: input.balance,
+		Balance: models.Amount{},
 		Created: time.Now(),
 	}, nil
 }
 
 func (b *BucketsService) DeleteBucket(id uint64) error {
-	b.logger.Info("Delete Bucket", "id", id)
+	b.Logger.Info("Delete Bucket", "id", id)
 	// TODO authz
 	// TODO make sure bucket has a balance of zero?
 	// TODO delete from db
@@ -77,12 +73,11 @@ func (b *BucketsService) DeleteBucket(id uint64) error {
 }
 
 func (b *BucketsService) GetMyBuckets() ([]models.Bucket, error) {
+	bucket, err := b.Repo.Get(1)
+	if err != nil {
+		return make([]models.Bucket, 0), err
+	}
 	return []models.Bucket{
-		{
-			ID:      1,
-			Name:    "Test",
-			Balance: "100.00",
-			Created: time.Time{},
-		},
+		*bucket,
 	}, nil
 }

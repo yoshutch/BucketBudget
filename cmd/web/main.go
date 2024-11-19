@@ -8,6 +8,7 @@ import (
 	"os"
 	"text/template"
 
+	"yosbomb.com/bucketbudget/internal/data"
 	"yosbomb.com/bucketbudget/internal/services"
 
 	_ "github.com/lib/pq"
@@ -40,7 +41,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	buckets := services.NewBucketsService(logger)
+	bucketsRepo := data.BucketsRepo{DB: db}
+
+	buckets := services.BucketsService{Logger: logger, Repo: &bucketsRepo}
 
 	app := &application{
 		logger:        logger,
