@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"time"
 
-	"yosbomb.com/bucketbudget/internal/data"
-	"yosbomb.com/bucketbudget/internal/models"
+	"github.com/yoshutch/BucketBudget/internal/data"
+	"github.com/yoshutch/BucketBudget/internal/models"
 )
 
 type BucketsService struct {

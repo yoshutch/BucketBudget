@@ -8,8 +8,8 @@ import (
 	"os"
 	"text/template"
 
-	"yosbomb.com/bucketbudget/internal/data"
-	"yosbomb.com/bucketbudget/internal/services"
+	"github.com/yoshutch/BucketBudget/internal/data"
+	"github.com/yoshutch/BucketBudget/internal/services"
 
 	_ "github.com/lib/pq"
 )

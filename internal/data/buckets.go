@@ -3,7 +3,7 @@ package data
 import (
 	"database/sql"
 
-	"yosbomb.com/bucketbudget/internal/models"
+	"github.com/yoshutch/BucketBudget/internal/models"
 )
 
 type BucketsRepo struct {

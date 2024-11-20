@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"text/template"
 
-	"yosbomb.com/bucketbudget/cmd/web/ui"
+	"github.com/yoshutch/BucketBudget/cmd/web/ui"
 )
 
 type BaseTemplateData struct {

@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"yosbomb.com/bucketbudget/internal/models"
+	"github.com/yoshutch/BucketBudget/internal/models"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {

@@ -3,7 +3,7 @@ package models
 import (
 	"testing"
 
-	"yosbomb.com/bucketbudget/internal/assert"
+	"github.com/yoshutch/BucketBudget/internal/assert"
 )
 
 func TestAmountAdd(t *testing.T) {

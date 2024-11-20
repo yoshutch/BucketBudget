@@ -1,4 +1,4 @@
-module yosbomb.com/bucketbudget
+module github.com/yoshutch/BucketBudget
 
 go 1.23.1
 
