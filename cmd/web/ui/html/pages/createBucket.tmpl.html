@@ -3,12 +3,15 @@
 {{define "main"}}
     <h2>New Bucket</h2>
     {{with .Form}}
-    <form>
+    <form action="/createBucket" method="post">
         <label for="name">Name:</label>
-        <input id="name" type="text" value="{{.Name}}"/>
+        {{with .FieldErrors.name}}
+        <label for="name" class="error">{{.}}</label>
+        {{end}}
+        <input id="name" type="text" value="{{.Name}}" name="name"/>
         <br/>
         <label for="balance">Balance</label>
-        <input id="balance" type="text" value="{{.Balance}}"/>
+        <input id="balance" type="text" value="{{.Balance}}" name="balance"/>
         <br/>
         <input type="submit" value="Save"/>
     </form>

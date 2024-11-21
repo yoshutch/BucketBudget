@@ -25,7 +25,9 @@ func main() {
 	dsn := flag.String("dsn", os.Getenv("BUCKET_DB_DSN"), "PostgreSQL DSN")
 	flag.Parse()
 
-	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelDebug,
+	}))
 
 	db, err := openDB(*dsn)
 	if err != nil {

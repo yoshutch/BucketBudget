@@ -7,6 +7,7 @@ func (app *application) routes() http.Handler {
 
 	mux.HandleFunc("GET /{$}", app.home)
 	mux.HandleFunc("GET /createBucket", app.createBucket)
+	mux.HandleFunc("POST /createBucket", app.createBucketPost)
 
 	return mux
 }
