@@ -1,0 +1,16 @@
+{{define "title"}}Home{{end}}
+
+{{define "main"}}
+    <h2>New Bucket</h2>
+    {{with .Form}}
+    <form>
+        <label for="name">Name:</label>
+        <input id="name" type="text" value="{{.Name}}"/>
+        <br/>
+        <label for="balance">Balance</label>
+        <input id="balance" type="text" value="{{.Balance}}"/>
+        <br/>
+        <input type="submit" value="Save"/>
+    </form>
+    {{end}}
+{{end}}
