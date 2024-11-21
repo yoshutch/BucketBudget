@@ -59,6 +59,8 @@ func (app *application) createBucketPost(w http.ResponseWriter, r *http.Request)
 
 	form.CheckField(validator.IsNotBlank(form.Name), "name", "must not be blank")
 	form.CheckField(validator.MaxChars(form.Name, 64), "name", "must be less than 64 characters")
+	form.CheckField(validator.IsNotBlank(form.Balance), "balance", "must not be blank")
+	// validate regex to prove period in string and only digits?
 
 	type formData struct {
 		Form bucketForm
@@ -73,6 +75,14 @@ func (app *application) createBucketPost(w http.ResponseWriter, r *http.Request)
 		app.render(w, r, http.StatusOK, "createBucket.tmpl.html", data)
 		return
 	}
+
+	balance, err := models.ParseAmountFromString(form.Balance)
+	if err != nil {
+		app.serverError(w, r, err)
+		return
+	}
+	app.bucketService.NewBucket(form.Name, balance)
+
 	app.logger.Debug("Saved successfully!")
 	data := formData{
 		Form: form,
